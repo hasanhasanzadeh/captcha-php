@@ -1,3 +1,10 @@
+@font-face {
+    font-family: Vazir;
+    src: url("../fonts/Vazir-Medium.woff2") format('woff2'),
+    url("../fonts/Vazir-Medium.woff") format('woff'),
+    url("../fonts/Vazir-Medium.eot") format('eot');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -11,6 +18,7 @@ html,body{
     direction: rtl;
     font-size: 1rem;
     color: var(--text-black);
+    font-family: Vazir !important;
 }
 
 :root{
@@ -175,6 +183,13 @@ html,body{
 .container{
     width: 30%;
     margin: 70px auto;
+}
+.text-center{
+    text-align: center;
+    justify-items: center;
+}
+.text-decoration-none{
+    text-decoration: none;
 }
 @media only screen and (max-width: 576px) {
     .container{

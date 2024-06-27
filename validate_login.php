@@ -1,25 +1,39 @@
 <?php
 session_start();
 
-// Get the CAPTCHA code from the session
 $stored_captcha = $_SESSION['captcha_code'];
 
-// Get the CAPTCHA code entered by the user
-$user_captcha = $_POST['captcha'];
 
-// Check if the CAPTCHA code matches
-if ($user_captcha === $stored_captcha) {
+$email = $_POST['email'];
+$password = $_POST['password'];
+$captcha = $_POST['captcha'];
+$emailPattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
 
-// CAPTCHA is correct, proceed with login validation
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+if ($password == null || $email == null || $captcha == null) {
+    if (!$password) {
+        $_SESSION['errors'][] = 'کلمه عبور نباید خالی باشد';
+    }
+    if (!$email) {
+        $_SESSION['errors'][] = 'ایمیل نباید خالی باشد';
+    }
+    if (!$captcha) {
+        $_SESSION['errors'][] = 'کد امنیتی نباید خالی باشد';
+    }
 
-// For example, check the database for the user credentials
-
-// Assuming validation is successful
-    echo 'Login successful';
+    header('Location: login.php');
+    exit();
+}
+if (!preg_match($emailPattern, $email)) {
+    $_SESSION['errors'][] = 'ایمیل وارد شده معتبر نمی‌باشد';
+}
+if ($stored_captcha === $captcha) {
+    $_SESSION['success'] = 'شما با موفقیت وارد سایت شدید';
+    header('Location: index.php');
+    exit();
 } else {
-// CAPTCHA is incorrect
-    echo 'Incorrect CAPTCHA';
+    $_SESSION['errors'][] = 'کد امنیتی اشتباه می باشد';
+    $_SESSION['errors'][] = 'کد امنیتی حساس به حروف کوچک و بزرگ می باشد';
+    header('Location: login.php');
+    exit();
 }
 ?>
